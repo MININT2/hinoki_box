@@ -8,4 +8,3 @@ edition = "2021"
 [dependencies]
 rand = "0.8.5"
 twox-hash = { version = "1.6.3", features = ["serde"] }
-

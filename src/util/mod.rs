@@ -1,4 +1,7 @@
 pub(crate) mod instruction;
+pub(crate) mod flag;
+pub(crate) mod versioning;
+pub(crate) mod crc32;
 
 use twox_hash::XxHash32;
 use std::{

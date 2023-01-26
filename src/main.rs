@@ -2,6 +2,7 @@ mod math;
 mod util;
 mod net;
 mod io;
+mod mem;
 
 use crate::util::instruction::*;
 
@@ -28,16 +29,16 @@ impl SetHiLo for u16 {
 }
 
 pub struct VM {
-    registers: [u16; 32],
-    flags: [u16; 32],
+    registers: [u16; 16],
+    flags: [u16; 16],
     pc: usize,
     elf: Vec<u8>,
 }
 impl VM {
     pub fn new() -> VM {
         VM {
-            registers: [0; 32],
-            flags: [0; 32],
+            registers: [0; 16],
+            flags: [0; 16],
             pc: 0,
             elf: vec![],
         }
@@ -45,11 +46,11 @@ impl VM {
     pub fn run(&mut self) {
         let mut is_done: bool = false;
         while !is_done {
-            //is_done = self.execute_instruction();
+            is_done = self.execute_instruction();
         }
     }
     fn decode_opcode(&mut self) -> Opcode {
-        let opcode = Opcode::from(self.next_16_bits()); //(((self.elf[self.pc] as u16) << 8) | self.elf[self.pc + 1] as u16);
+        let opcode = Opcode::from(self.next_16_bits());
 
         //increment program counter
         self.pc += 1;
@@ -91,7 +92,7 @@ impl VM {
                 let data = self.next_16_bits() as u16;
                 self.registers[register] = data;
             },
-            //opcode -> operand A -> operand B -> register
+            //opcode -> register dest -> operand register a -> operand register b
             Opcode::AddImmediate => {
                 let register1 = self.registers[self.next_16_bits() as usize];
                 let register2 = self.registers[self.next_16_bits() as usize];
